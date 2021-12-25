@@ -1,0 +1,15 @@
+#index:
+#    path: /
+#    controller: App\Controller\DefaultController::index
+loginPath: 
+  path: /login
+  controller: App\Controller\LoginController::template
+registerPath:
+  path: /register
+  controller: App\Controller\RegisterController::template
+homePath:
+  path: /home
+  controller: App\Controller\HomeController::home
+adminPath:
+  path: /admin
+  controller : App\Controller\AdminController::admin

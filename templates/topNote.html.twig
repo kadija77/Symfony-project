@@ -1,0 +1,20 @@
+{% extends "base.html.twig" %}
+{% block body %}
+{{ parent() }}
+<div class="container">
+    <div class="row">
+        {% for p in depot %}
+        <div class="col-md-4">
+            <div class="card" style="width: 18rem;">
+                <div class="card-body">
+                    <h5 class="card-title">etudiant : {{p.getUser().getUsername()}}</h5>
+                    <h6 class="card-subtitle mb-2 text-muted">titre : {{p.getTitre()}}</h6>
+                    <p class="card-text">description : {{p.getDescription()}}</p>
+                    {% if p.getNote() != null %}
+                    <p class="card-text"> note : {{p.getNote()}}</p>
+                    {% endif %}
+                </div>
+            </div>
+        </div>
+        {% endfor %}
+{% endblock %}

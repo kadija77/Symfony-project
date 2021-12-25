@@ -1,0 +1,21 @@
+{% extends "base.html.twig" %}
+{% block body %}
+{{ parent() }}
+<p>WELCOME {{ username }}</p>
+<div class="container">
+
+<div class="row">
+{% for p in categorie %}
+<div class="col-md-4">
+<div class="card" style="width: 18rem;">
+  <div class="card-body">
+    <h5 class="card-title">{{p.getNom()}}</h5>
+    <p class="card-text">{{p.getCoefficient()}}</p>
+    <a href="{{path('Alltravail',{'categorie_code' : p.getId()})}}" class="btn btn-primary">Open</a>
+  </div>
+</div>
+</div>
+{% endfor %}
+</div>
+</div>
+{% endblock %}

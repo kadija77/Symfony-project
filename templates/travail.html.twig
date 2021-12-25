@@ -1,0 +1,31 @@
+{% extends "base.html.twig" %}
+{% block body %}
+{{ parent() }}
+    {% if user.getType() == 'enseignant' %}
+    <div class="text-center">
+    <h2>Add Travail</h2>
+    {{form(form)}}
+    </div>
+    {% endif %}
+    <div class="container">
+    <div class="row">
+        {% for p in allTravail %}
+        <div class="col-md-4">
+            <div class="card" style="width: 18rem;">
+                <div class="card-body">
+                    <h5 class="card-title">{{p.getFile()}}</h5>
+                    <p class="card-text">{{p.getPath()}}</p>
+                    {% if user.getType() == 'etudiant' %}
+                        <a href="{{path('depotTravail',{'travail_code' : p.getId()})}}" class="btn btn-primary">Depot</a>
+                    {% endif %}
+                    {% if user.getType() == 'enseignant' %}
+                        <a href="{{path('allDepot',{'travail_code' : p.getId()})}}" class="btn btn-primary">Get List Depot</a>
+                        <a href="{{path('topNote',{'travail_code' : p.getId()})}}" class="btn btn-primary">top note</a>
+                    {% endif %}
+                </div>
+            </div>
+        </div>
+        {% endfor %}
+    </div>
+    </div>
+{% endblock %}
