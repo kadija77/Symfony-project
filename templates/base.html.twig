@@ -18,7 +18,9 @@
     </head>
     <body>
         {% block body %}
-       
+        <div class="text-center m-2">
+            <a href="{{path('logoutPath')}}" class="btn btn-primary">log out</a>
+        </div>
         {% endblock %}
     </body>
 </html>
