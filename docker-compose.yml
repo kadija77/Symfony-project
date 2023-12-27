@@ -12,7 +12,7 @@ services:
       TRUSTED_PROXIES: ${TRUSTED_PROXIES:-127.0.0.0/8,10.0.0.0/8,172.16.0.0/12,192.168.0.0/16}
       TRUSTED_HOSTS: ^${SERVER_NAME:-example\.com|localhost}|php$$
       # Run "composer require symfony/orm-pack" to install and configure Doctrine ORM
-      DATABASE_URL: mysql://root:outilDepot123&@outilDepot-data:6000/outilDepot?useSSL=false
+      DATABASE_URL: mysql://kadija:outilDepot123&@outilDepot-data:6000/outilDepot
       # Run "composer require symfony/mercure-bundle" to install and configure the Mercure integration
       MERCURE_URL: ${CADDY_MERCURE_URL:-http://php/.well-known/mercure}
       MERCURE_PUBLIC_URL: https://${SERVER_NAME:-localhost}/.well-known/mercure
@@ -39,10 +39,13 @@ services:
   outilDepot-data:
     image: mysql:5.7.44
     restart: on-failure
+    command: ["--default-authentication-plugin=mysql_native_password"]
     ports:
       - 6000:3306
     environment:
       - MYSQL_ROOT_PASSWORD=outilDepot123&
+      - MYSQL_USER=kadija
+      - MYSQL_PASSWORD=outilDepot123&
       - MYSQL_DATABASE=outilDepot
       # You may use a bind-mounted host directory instead, so that it is harder to accidentally remove the volume and lose all your data!
       # - ./docker/db/data:/var/lib/postgresql/data:rw

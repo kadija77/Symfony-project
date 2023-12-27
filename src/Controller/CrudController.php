@@ -9,17 +9,19 @@ use Symfony\Component\Form\Extension\Core\Type\SubmitType;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Routing\Annotation\Route;
+use Doctrine\Persistence\ManagerRegistry as PersistenceManagerRegistry;
 
 class CrudController extends AbstractController {
     private $form;
     private $entityManager;
     private $globalRequest;
-
+    private $doctrine;
     /**
      * @Route("/crudCategorie/{categorie_code}/{statut}",name="crudCategorie")
      */
-    public function init(Request $request,$categorie_code,$statut) {
-        $this->entityManager = $this->getDoctrine()->getManager();
+    public function init(Request $request,PersistenceManagerRegistry $doctrine,$categorie_code,$statut) {
+        $this->entityManager = $doctrine->getManager();
+        $this->doctrine = $doctrine;
         $this->globalRequest = $request;
         $this->form = $this->handleCrud($categorie_code,$statut);
         if($this->form->isSubmitted() && $this->form->isValid()) {
@@ -43,7 +45,7 @@ class CrudController extends AbstractController {
         };
     }
     public function edit($categorie_code) {
-        $produit = $this->getDoctrine()->getRepository(Categorie::class)->find($categorie_code);
+        $produit = $this->doctrine->getRepository(Categorie::class)->find($categorie_code);
         $form = $this->createFormBuilder($produit)
         ->add('nom',TextType::class)
         ->add('coefficient',IntegerType::class)
@@ -58,7 +60,7 @@ class CrudController extends AbstractController {
     }
 
     public function delete($categorie_code) {
-        $produit = $this->getDoctrine()->getRepository(Categorie::class)->find($categorie_code);
+        $produit = $this->doctrine->getRepository(Categorie::class)->find($categorie_code);
         $form = $this->createFormBuilder($produit)
         ->add('nom',TextType::class,['disabled' => true])
         ->add('coefficient',IntegerType::class,['disabled' => true])

@@ -10,17 +10,18 @@ use Symfony\Component\Form\Extension\Core\Type\PasswordType;
 use Symfony\Component\Form\Extension\Core\Type\SubmitType;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\HttpFoundation\Request;
+use Doctrine\Persistence\ManagerRegistry as PersistenceManagerRegistry;
 
 
 class RegisterController extends AbstractController {
     private $globalRequest;
-    public function template(Request $request) : Response {
-        $this->entityManager = $this->getDoctrine()->getManager();
+    public function template(Request $request,PersistenceManagerRegistry $doctrine) : Response {
+        $this->entityManager = $doctrine->getManager();
         $this->globalRequest = $request;
         $form = $this->register();
         if($form->isSubmitted() && $form->isValid()) {
             $user = $form->getData();
-            $userRepo = $this->getDoctrine()->getRepository(User::class)->findOneBy(['username' => $user->getUsername()]);
+            $userRepo = $doctrine->getRepository(User::class)->findOneBy(['username' => $user->getUsername()]);
             if(!$userRepo) {
                 $this->entityManager->persist($user);
                 $this->entityManager->flush();

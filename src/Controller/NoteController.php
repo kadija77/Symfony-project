@@ -9,16 +9,19 @@ use Symfony\Component\Form\Extension\Core\Type\SubmitType;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
+use Doctrine\Persistence\ManagerRegistry as PersistenceManagerRegistry;
 
 class NoteController extends AbstractController {
     private $globalRequest;
     private $entityManager;
+    private $doctrine;
      /**
      * @Route("/noteDepot/{depot_code}",name="noteDepot")
      */
-    public function template(Request $request,$depot_code) : Response {
+    public function template(Request $request,PersistenceManagerRegistry $doctrine,$depot_code) : Response {
         $this->globalRequest = $request;
-        $this->entityManager = $this->getDoctrine()->getManager();
+        $this->doctrine = $doctrine;
+        $this->entityManager = $this->doctrine->getManager();
         $form = $this->returnNoteForm($depot_code);
         if($form->isSubmitted() && $form->isValid()) {
             return $this->redirectToRoute('allDepot',["travail_code" => $this->getTravail($depot_code)]);
@@ -28,7 +31,7 @@ class NoteController extends AbstractController {
         ]);
     }
     public function returnNoteForm($depot_code) {
-        $depot = $this->getDoctrine()->getRepository(DepotTravail::class)->findOneBy(["id" => $depot_code]);
+        $depot = $this->doctrine->getRepository(DepotTravail::class)->findOneBy(["id" => $depot_code]);
         $form = $this->createFormBuilder($depot)
         ->add("note", IntegerType::class)
         ->add('save',SubmitType::class,["label" => "Note"])
@@ -41,7 +44,7 @@ class NoteController extends AbstractController {
         return $form;
     }
     public function getTravail($depot_code) {
-        $depot = $this->getDoctrine()->getRepository(DepotTravail::class)->findOneBy(["id" => $depot_code]);
+        $depot = $this->doctrine->getRepository(DepotTravail::class)->findOneBy(["id" => $depot_code]);
         return $depot->getTravail()->getId();
     }
 }

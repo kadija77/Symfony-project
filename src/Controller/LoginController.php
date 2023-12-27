@@ -12,18 +12,18 @@ use Symfony\Component\Form\Extension\Core\Type\SubmitType;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\HttpFoundation\RedirectResponse;
 use Symfony\Component\HttpFoundation\Request;
-
+use Doctrine\Persistence\ManagerRegistry as PersistenceManagerRegistry;
 
 class LoginController extends AbstractController {
     private $globalRequest;
 
-    public function template(Request $request) : Response {
-        $this->entityManager = $this->getDoctrine()->getManager();
+    public function template(Request $request,PersistenceManagerRegistry $doctrine) : Response {
+        $this->entityManager = $doctrine->getManager();
         $this->globalRequest = $request;
         $form = $this->login();
         if($form->isSubmitted() && $form->isValid()) {
             $user = $form->getData();
-            $userRepo = $this->getDoctrine()->getRepository(User::class)->findOneBy(['username' => $user->getUsername(),'password' => $user->getPassword(),'type' => $user->getType()]);
+            $userRepo = $doctrine->getRepository(User::class)->findOneBy(['username' => $user->getUsername(),'password' => $user->getPassword(),'type' => $user->getType()]);
             if(!$userRepo) {
                 echo "NO USER";
             } else {

@@ -10,16 +10,19 @@ use Symfony\Component\Form\Extension\Core\Type\SubmitType;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Routing\Annotation\Route;
+use Doctrine\Persistence\ManagerRegistry as PersistenceManagerRegistry;
 
 class DepotTravailController extends AbstractController {
     private $globalRequest;
     private $entityManager;
+    private $doctrine;
      /**
      * @Route("/depotTravail/{travail_code}",name="depotTravail")
      */
-    public function template(Request $request,$travail_code) {
+    public function template(Request $request,PersistenceManagerRegistry $doctrine,$travail_code) {
         $this->globalRequest = $request;
-        $this->entityManager = $this->getDoctrine()->getManager();
+        $this->doctrine = $doctrine;
+        $this->entityManager = $this->doctrine->getManager();
         $form = $this->handleForm($travail_code);
         if($form->isSubmitted() && $form->isValid()) {
             return $this->redirectToRoute('Alltravail',["categorie_code" => $this->getCategory($travail_code)]);
@@ -29,15 +32,15 @@ class DepotTravailController extends AbstractController {
         ]);
     }
     public function handleForm($travail_code) {
-        $user = $this->getDoctrine()->getRepository(User::class)->findOneBy(["username" => $this->globalRequest->cookies->get("username")]);
-        $depot = $this->getDoctrine()->getRepository(DepotTravail::class)->findOneBy(["user" => $user, "travail" => $travail_code]);
+        $user = $this->doctrine->getRepository(User::class)->findOneBy(["username" => $this->globalRequest->cookies->get("username")]);
+        $depot = $this->doctrine->getRepository(DepotTravail::class)->findOneBy(["user" => $user, "travail" => $travail_code]);
         if($depot) {
             return $this->edit($depot);
         }
         return $this->add($user,$travail_code);
     }
     public function getCategory($travail_code) {
-        $travail = $this->getDoctrine()->getRepository(Travail::class)->findOneBy(["id" => $travail_code]);
+        $travail = $this->doctrine->getRepository(Travail::class)->findOneBy(["id" => $travail_code]);
         return $travail->getCategorie()->getId(); 
     }
     public function edit($depot) {
@@ -70,6 +73,6 @@ class DepotTravailController extends AbstractController {
         return $form;
     }
     public function getTravail($travail_code) {
-        return $this->getDoctrine()->getRepository(Travail::class)->findOneBy(["id" => $travail_code]);
+        return $this->doctrine->getRepository(Travail::class)->findOneBy(["id" => $travail_code]);
     }
 }
