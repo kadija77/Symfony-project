@@ -5,39 +5,27 @@ namespace App\Entity;
 use App\Repository\DepotTravailRepository;
 use Doctrine\ORM\Mapping as ORM;
 
-/**
- * @ORM\Entity(repositoryClass=DepotTravailRepository::class)
- */
+#[ORM\Entity(repositoryClass: DepotTravailRepository::class)]
 class DepotTravail
 {
-    /**
-     * @ORM\Id
-     * @ORM\GeneratedValue
-     * @ORM\Column(type="integer")
-     */
+    #[ORM\Id]
+    #[ORM\GeneratedValue]
+    #[ORM\Column(type: "integer")]
     private $id;
 
-    /**
-     * @ORM\Column(type="string", length=255)
-     */
+    #[ORM\Column(type: "string", length: 255)]
     private $titre;
 
-    /**
-     * @ORM\Column(type="string", length=255)
-     */
+    #[ORM\Column(type: "string", length: 255)]
     private $description;
-    /**
-     * @ORM\Column(type="float",nullable=true)
-     */
+
+    #[ORM\Column(type: "float", nullable: true)]
     private $note;
-     /**
-     * @ORM\ManyToOne(targetEntity="App\Entity\User", inversedBy="depotTravail")
-     */
+
+    #[ORM\ManyToOne(targetEntity: User::class, inversedBy: "depotTravail")]
     private $user;
 
-    /**
-     * @ORM\ManyToOne(targetEntity="App\Entity\Travail", inversedBy="depotTravail")
-    */    
+    #[ORM\ManyToOne(targetEntity: Travail::class, inversedBy: "depotTravail")]
     private $travail;
 
     public function getId(): ?int

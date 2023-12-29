@@ -10,7 +10,7 @@ use Doctrine\Migrations\AbstractMigration;
 /**
  * Auto-generated Migration: Please modify to your needs!
  */
-final class Version20211225160839 extends AbstractMigration
+final class Version20231229214847 extends AbstractMigration
 {
     public function getDescription(): string
     {
@@ -33,9 +33,9 @@ final class Version20211225160839 extends AbstractMigration
     public function down(Schema $schema): void
     {
         // this down() migration is auto-generated, please modify it to your needs
-        $this->addSql('ALTER TABLE travail DROP FOREIGN KEY FK_90897ABB12469DE2');
-        $this->addSql('ALTER TABLE depot_travail DROP FOREIGN KEY FK_83AD362AEEFE7EA9');
         $this->addSql('ALTER TABLE depot_travail DROP FOREIGN KEY FK_83AD362AA76ED395');
+        $this->addSql('ALTER TABLE depot_travail DROP FOREIGN KEY FK_83AD362AEEFE7EA9');
+        $this->addSql('ALTER TABLE travail DROP FOREIGN KEY FK_90897ABB12469DE2');
         $this->addSql('ALTER TABLE travail DROP FOREIGN KEY FK_90897ABBA76ED395');
         $this->addSql('DROP TABLE categorie');
         $this->addSql('DROP TABLE depot_travail');

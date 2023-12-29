@@ -7,33 +7,22 @@ use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 
-/**
- * @ORM\Entity(repositoryClass=CategorieRepository::class)
- */
+#[ORM\Entity(repositoryClass: CategorieRepository::class)]
 class Categorie
 {
-    /**
-     * @ORM\Id
-     * @ORM\GeneratedValue
-     * @ORM\Column(type="integer")
-     */
+    #[ORM\Id]
+    #[ORM\GeneratedValue]
+    #[ORM\Column(type: "integer")]
     private $id;
 
-    /**
-     * @ORM\Column(type="string", length=255)
-     */
+    #[ORM\Column(type: "string", length: 255)]
     private $nom;
 
-    /**
-     * @ORM\Column(type="integer")
-     */
+    #[ORM\Column(type: "integer")]
     private $coefficient;
 
-    
-    /**
-     * @ORM\OneToMany(targetEntity="App\Entity\Travail", mappedBy="category")
-     * @ORM\JoinColumn(onDelete="CASCADE")
-     */
+    #[ORM\OneToMany(mappedBy: "category", targetEntity: Travail::class)]
+    #[ORM\JoinColumn(onDelete: "CASCADE")]
     private $travail;
 
     public function  __construct()

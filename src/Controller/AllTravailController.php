@@ -20,9 +20,7 @@ class AllTravailController extends AbstractController {
     private $globalRequest;
     private $entityManager;
     private $doctrine;
-     /**
-     * @Route("/Alltravail/{categorie_code}",name="Alltravail")
-     */
+    #[Route('/Alltravail/{categorie_code}', name: 'Alltravail')]
     public function template(Request $request,PersistenceManagerRegistry $doctrine,$categorie_code) : Response {
         $this->entityManager = $doctrine->getManager();
         $this->globalRequest = $request;

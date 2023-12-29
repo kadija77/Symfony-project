@@ -7,41 +7,28 @@ use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 
-/**
- * @ORM\Entity(repositoryClass=UserRepository::class)
- */
+#[ORM\Entity(repositoryClass: UserRepository::class)]
+#[ORM\Table(name: "user")]
 class User
 {
-    /**
-     * @ORM\Id
-     * @ORM\GeneratedValue
-     * @ORM\Column(type="integer")
-     */
+    #[ORM\Id]
+    #[ORM\GeneratedValue]
+    #[ORM\Column(type: "integer")]
     private $id;
 
-    /**
-     * @ORM\Column(type="string", length=255)
-     */
+    #[ORM\Column(type: "string", length: 255)]
     private $username;
 
-    /**
-     * @ORM\Column(type="string", length=255)
-     */
+    #[ORM\Column(type: "string", length: 255)]
     private $password;
 
-    /**
-     * @ORM\Column(type="string", length=255, columnDefinition="enum('etudiant','enseignant')")
-     */
+    #[ORM\Column(type: "string", length: 255, columnDefinition: "enum('etudiant','enseignant')")]
     private $type;
 
-    /**
-     * @ORM\OneToMany(targetEntity="App\Entity\Travail", mappedBy="user")
-     */
+    #[ORM\OneToMany(mappedBy: "user", targetEntity: Travail::class)]
     private $travail;
 
-    /**
-     * @ORM\OneToMany(targetEntity="App\Entity\DepotTravail", mappedBy="user")
-     */
+    #[ORM\OneToMany(mappedBy: "user", targetEntity: DepotTravail::class)]
     private $depotTravail;
 
     public function  __construct()

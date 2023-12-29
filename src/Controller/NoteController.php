@@ -15,9 +15,7 @@ class NoteController extends AbstractController {
     private $globalRequest;
     private $entityManager;
     private $doctrine;
-     /**
-     * @Route("/noteDepot/{depot_code}",name="noteDepot")
-     */
+    #[Route('/noteDepot/{depot_code}', name: 'noteDepot')]
     public function template(Request $request,PersistenceManagerRegistry $doctrine,$depot_code) : Response {
         $this->globalRequest = $request;
         $this->doctrine = $doctrine;

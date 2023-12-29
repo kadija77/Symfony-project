@@ -5,41 +5,27 @@ namespace App\Entity;
 use App\Repository\TravailRepository;
 use Doctrine\ORM\Mapping as ORM;
 
-/**
- * @ORM\Entity(repositoryClass=TravailRepository::class)
- */
+#[ORM\Entity(repositoryClass: TravailRepository::class)]
 class Travail
 {
-    /**
-     * @ORM\Id
-     * @ORM\GeneratedValue
-     * @ORM\Column(type="integer")
-     */
+    #[ORM\Id]
+    #[ORM\GeneratedValue]
+    #[ORM\Column(type: "integer")]
     private $id;
 
-    /**
-     * @ORM\Column(type="string", length=255, nullable=true)
-     */
+    #[ORM\Column(type: "string", length: 255, nullable: true)]
     private $file;
 
-    /**
-     * @ORM\Column(type="string", length=255, nullable=true)
-     */
+    #[ORM\Column(type: "string", length: 255, nullable: true)]
     private $path;
 
-    /**
-     * @ORM\ManyToOne(targetEntity="App\Entity\Categorie", inversedBy="travail")
-     */
+    #[ORM\ManyToOne(targetEntity: Categorie::class, inversedBy: "travail")]
     private $category;
 
-    /**
-     * @ORM\ManyToOne(targetEntity="App\Entity\User", inversedBy="travail")
-     */
+    #[ORM\ManyToOne(targetEntity: User::class, inversedBy: "travail")]
     private $user;
 
-    /**
-     * @ORM\OneToMany(targetEntity="App\Entity\DepotTravail", mappedBy="travail")
-     */
+    #[ORM\OneToMany(mappedBy: "travail", targetEntity: DepotTravail::class)]
     private $depotTravail;
 
     public function getId(): ?int

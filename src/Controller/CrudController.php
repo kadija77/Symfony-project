@@ -16,9 +16,7 @@ class CrudController extends AbstractController {
     private $entityManager;
     private $globalRequest;
     private $doctrine;
-    /**
-     * @Route("/crudCategorie/{categorie_code}/{statut}",name="crudCategorie")
-     */
+    #[Route('/crudCategorie/{categorie_code}/{statut}', name: 'crudCategorie')]
     public function init(Request $request,PersistenceManagerRegistry $doctrine,$categorie_code,$statut) {
         $this->entityManager = $doctrine->getManager();
         $this->doctrine = $doctrine;

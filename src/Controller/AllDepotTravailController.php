@@ -12,9 +12,7 @@ use Doctrine\Persistence\ManagerRegistry as PersistenceManagerRegistry;
 
 class AllDepotTravailController extends AbstractController {
 
-    /**
-     * @Route("/allDepot/{travail_code}",name="allDepot")
-     */
+    #[Route('/allDepot/{travail_code}', name: 'allDepot')]
     public function template(Request $request,PersistenceManagerRegistry $doctrine,$travail_code) : Response {
         return $this->render("allDepot.html.twig", [
             "depot" => $this->getAllDepot($doctrine,$travail_code)

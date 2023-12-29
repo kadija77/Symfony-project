@@ -11,9 +11,7 @@ use Doctrine\Persistence\ManagerRegistry as PersistenceManagerRegistry;
 
 class topNoteController extends AbstractController {
 
-    /**
-     * @Route("/topNote/{travail_code}",name="topNote")
-     */
+    #[Route('/topNote/{travail_code}', name: 'topNote')]
     public function template(Request $request,PersistenceManagerRegistry $doctrine,$travail_code) : Response {
         return $this->render("topNote.html.twig",[
             "depot" => $this->GetTopNote($doctrine,$travail_code)

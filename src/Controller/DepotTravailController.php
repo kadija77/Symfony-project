@@ -16,9 +16,7 @@ class DepotTravailController extends AbstractController {
     private $globalRequest;
     private $entityManager;
     private $doctrine;
-     /**
-     * @Route("/depotTravail/{travail_code}",name="depotTravail")
-     */
+    #[Route('/depotTravail/{travail_code}', name: 'depotTravail')]
     public function template(Request $request,PersistenceManagerRegistry $doctrine,$travail_code) {
         $this->globalRequest = $request;
         $this->doctrine = $doctrine;
